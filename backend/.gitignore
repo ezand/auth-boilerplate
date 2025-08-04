@@ -1,45 +1,41 @@
+# Gradle files
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
-*.iws
+# Kotlin/Java specific files
+*.class
+*.jar
+*.war
+*.zip
+*.log
+# IDE files (IntelliJ IDEA)
+.idea/
 *.iml
+*.iws
 *.ipr
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
-
-### Kotlin ###
-.kotlin
-
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-
-### VS Code ###
 .vscode/
 
-### Mac OS ###
+# Build and run artifacts
+out/
+target/
+classes/
+resources/
+dependency-cache/
+
+# Docker
+# Don't commit Docker images, volumes, or temporary files
+*.jar
+*.war
+*.zip
+# The docker-compose.yml file is needed, so it's not ignored
+# The postgres_data volume is managed by Docker, so we don't commit it
+postgres_data/
+
+# Environment-specific files
+# This is crucial for local configuration and secrets
+application.conf
+.env
+
+# MacOS specific files
 .DS_Store

@@ -52,7 +52,11 @@ fun Application.module() {
 
     // Configure the routing.
     routing {
-        authRoutes(userService, jwtService)
-        profileRoutes()
+        route("/api") {
+            route("/auth") {
+                authRoutes(userService, jwtService)
+            }
+            profileRoutes()
+        }
     }
 }
