@@ -16,17 +16,20 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-server-netty-jvm")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
+    implementation(ktorLibs.server.core)
+    implementation(ktorLibs.server.netty)
+    implementation(ktorLibs.server.contentNegotiation)
+    implementation(ktorLibs.serialization.kotlinx.json)
 
     // JWT Authentication dependency
-    implementation("io.ktor:ktor-server-auth-jwt-jvm")
+    implementation(ktorLibs.server.auth.jwt)
 
     implementation("ch.qos.logback:logback-classic:1.5.18")
-    testImplementation("io.ktor:ktor-server-test-host-jvm")
-    testImplementation("io.ktor:ktor-server-tests-jvm:2.3.9")
+    implementation(ktorLibs.server.sessions)
+    implementation(ktorLibs.client.core)
+    implementation(ktorLibs.client.cio)
+    implementation(ktorLibs.client.contentNegotiation)
+    testImplementation(ktorLibs.server.testHost)
     testImplementation(kotlin("test"))
 
     // Exposed ORM for database access
