@@ -1,3 +1,17 @@
 {
-  "welcome": "Velkommen"
+  "pages": {
+    "index": {
+      "welcome": "Velkommen til hovedsiden"
+    },
+    "profile": {
+      "user-profile": {
+        "title": "Brukerprofil"
+      }
+    }
+  },
+  "components": {
+    "googleSignInButton": {
+      "label": "Fortsett med Google"
+    }
+  }
 }

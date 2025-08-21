@@ -19,6 +19,14 @@ export default defineNuxtConfig({
   css: ["~/assets/css/main.css"],
 
   i18n: {
+    strategy: "no_prefix",
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieCrossOrigin: true,
+      fallbackLocale: "nb-NO",
+      alwaysRedirect: false,
+      redirectOn: "no prefix",
+    },
     defaultLocale: "nb-NO",
     locales: [
       { code: "en", file: "en.json" },

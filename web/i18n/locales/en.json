@@ -1,3 +1,17 @@
 {
-  "welcome": "Welcome"
+  "pages": {
+    "index": {
+      "welcome": "Welcome to the index page"
+    },
+    "profile": {
+      "user-profile": {
+        "title": "User Profile"
+      }
+    }
+  },
+  "components": {
+    "googleSignInButton": {
+      "label": "Continue with Google"
+    }
+  }
 }

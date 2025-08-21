@@ -5,5 +5,5 @@ definePageMeta({
 </script>
 
 <template>
-    <h1>Profile page</h1>
+    <h1>{{ $t('pages.profile.user-profile.title') }}</h1>
 </template>
