@@ -9,34 +9,53 @@ const LoginForm = ({ onSubmit }: LoginFormProps) => {
   const [password, setPassword] = useState("");
 
   return (
-    <form
-      onSubmit={(e) => {
-        onSubmit(username, password);
-        e.preventDefault();
-      }}
-    >
+    <>
+      <form
+        onSubmit={(e) => {
+          onSubmit(username, password);
+          e.preventDefault();
+        }}
+      >
+        <div>
+          <div>Username:</div>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div>
+          <div>Password:</div>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <div>
+          <button type="submit">Login</button>
+        </div>
+      </form>
       <div>
-        <div>Username:</div>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+        <button
+          onClick={async () => {
+            window.location.href =
+              "/api/auth/google/login?redirectUrl=http://localhost:8080/home";
+          }}
+        >
+          Google Login
+        </button>
+        <button
+          onClick={async () => {
+            await fetch("/api/auth/logout");
+          }}
+        >
+          Google Logout
+        </button>
       </div>
-      <div>
-        <div>Password:</div>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <div>
-        <button type="submit">Login</button>
-      </div>
-    </form>
+    </>
   );
 };
 

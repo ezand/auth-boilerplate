@@ -6,7 +6,11 @@ import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.*
+import org.example.auth.AuthSession
+import org.example.auth.AuthType
 import org.example.auth.JwtService
+import org.example.auth.UserSession
 import org.example.models.*
 import org.example.service.UserService
 import org.jetbrains.exposed.v1.core.ResultRow
@@ -19,6 +23,24 @@ fun ResultRow.toUser() = User(
 
 // The routing module for authentication.
 fun Route.authRoutes(userService: UserService, jwtService: JwtService) {
+    authenticate("auth-oauth-google") {
+        route("/google") {
+            get("/login") {}
+            get("/callback") {
+                val currentPrincipal: OAuthAccessTokenResponse.OAuth2? = call.principal()
+                // redirects home if the url is not found before authorization
+                currentPrincipal?.let { principal ->
+                    principal.state?.let { state ->
+                        val authSession = call.sessions.get(AuthSession.NAME) as AuthSession
+                        call.sessions.clear<AuthSession>()
+                        call.sessions.set(UserSession.NAME, UserSession(state, principal.accessToken, AuthType.SESSION))
+                        call.respondRedirect(authSession.redirectUrl)
+                    }
+                }
+            }
+        }
+    }
+
     // Route for user registration.
     post("/register") {
         val registerRequest = call.receive<RegisterRequest>()
@@ -77,6 +99,12 @@ fun Route.authRoutes(userService: UserService, jwtService: JwtService) {
                 mapOf("error" to "Invalid username or password")
             )
         }
+    }
+
+    get("/logout") {
+        call.sessions.clear(AuthSession.NAME)
+        call.sessions.clear(UserSession.NAME)
+        call.respond(status = HttpStatusCode.OK, message = "OK")
     }
 }
 

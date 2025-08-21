@@ -1,6 +1,6 @@
 services:
   database:
-    image: postgres:17.5
+    image: postgres:latest
     container_name: auth_boilerplate_postgres
     environment:
       - POSTGRES_DB=auth_boilerplate

@@ -1,58 +1,34 @@
-import "./App.css";
-import LoginForm from "./components/auth/LoginForm";
-import RegisterForm from "./components/auth/RegisterForm";
+import { Route, Routes } from "react-router";
+import ProfilePage from "./pages/ProfilePage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import LandingPage from "./pages/LandingPage";
+import useAuth from "./auth/useAuth";
+import ProtectedRoute from "./ProtectedRoute";
 
-function App() {
+const App = () => {
+  const { userSession, onLogin, onLogout } = useAuth();
+
   return (
-    <>
-      <h1>Register</h1>
-      <RegisterForm
-        onSubmit={(username, password) => {
-          fetch("/api/auth/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-          }).then((response) => {
-            if (response.ok) {
-              alert("Registration successful");
-            } else {
-              alert("Registration failed");
-            }
-          });
-        }}
-      />
-      <br />
-      <hr />
-      <h1>Login</h1>
-      <LoginForm
-        onSubmit={(username, password) => {
-          console.log(username, password);
-          fetch("/api/auth/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-          }).then(async (response) => {
-            if (response.ok) {
-              const token = await response.json().then((data) => data.token);
-              fetch("/api/profile", {
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }).then(async (profileResponse) => {
-                alert((await profileResponse.json()).message);
-              });
-            } else {
-              alert("Login failed");
-            }
-          });
-        }}
-      />
-    </>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="auth">
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="login" element={<LoginPage onLogin={onLogin} />} />
+      </Route>
+      <Route path="profile">
+        <Route
+          path="me"
+          element={
+            <ProtectedRoute userSession={userSession}>
+              <ProfilePage onLogout={onLogout} />
+            </ProtectedRoute>
+          }
+        />
+      </Route>
+      <Route path="*" element={<div>No route!</div>} />
+    </Routes>
   );
-}
+};
 
 export default App;
