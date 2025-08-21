@@ -5,22 +5,26 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: "build",
   },
-  imports: {
-    presets: [
-      {
-        from: "vue-i18n",
-        imports: ["useI18n"],
-      },
-    ],
-  },
 
   modules: [
     "@nuxt/content",
     "@nuxt/eslint",
     "@nuxt/image",
     "@nuxt/ui",
+    "@nuxtjs/i18n",
+    "@compodium/nuxt",
     "nuxt-vuefire",
   ],
+
+  css: ["~/assets/css/main.css"],
+
+  i18n: {
+    defaultLocale: "nb-NO",
+    locales: [
+      { code: "en", file: "en.json" },
+      { code: "nb-NO", file: "nb-NO.json" },
+    ],
+  },
 
   vuefire: {
     auth: {

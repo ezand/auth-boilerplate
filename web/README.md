@@ -115,3 +115,6 @@ bun run preview
 - [Nuxt documentation](https://nuxt.com/docs/4.x/getting-started/introduction)
 - [VueFire documentation](https://vuefire.vuejs.org/nuxt/getting-started.html)
 - [Nuxt VueFire documentation](https://vuefire.vuejs.org/nuxt/getting-started.html)
+- [Nuxt i18n documentation](https://i18n.nuxtjs.org/docs/getting-started)
+- [Nuxt UI documentation](https://ui.nuxt.com/)
+- [Reka UI documentation](https://reka-ui.com/)

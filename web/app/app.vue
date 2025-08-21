@@ -1,9 +1,11 @@
 <script setup>
+const { locales, locale } = useI18n()
+
+const defaultLocale = "nb-NO"
 const router = useRouter()
 const route = useRoute()
 const user = useCurrentUser()
 
-// we don't need this watcher on server
 onMounted(() => {
   watch(user, (user, prevUser) => {
     if (prevUser && !user) {
@@ -20,6 +22,8 @@ onMounted(() => {
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <NuxtPage />
+    <UApp :locale="locales[locale] || defaultLocale">
+      <NuxtPage />
+    </UApp>
   </div>
 </template>
