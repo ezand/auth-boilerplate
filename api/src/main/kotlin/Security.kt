@@ -9,8 +9,8 @@ fun Application.configureSecurity() {
     val firebaseAdminFile = File(System.getenv("FIREBASE_ADMIN_FILE"))
 
     install(Authentication) {
-        firebase {
-            realm = "Auth API"
+        firebase("firebase") {
+            realm = "firebase-auth"
 
             setup { adminFile = firebaseAdminFile }
 
