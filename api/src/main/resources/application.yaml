@@ -1,0 +1,6 @@
+ktor:
+  application:
+    modules:
+      - club.huddleup.ApplicationKt.module
+  deployment:
+    port: 3001
