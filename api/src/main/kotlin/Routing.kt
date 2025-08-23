@@ -1,7 +1,9 @@
 package club.huddleup
 
+import io.ktor.http.HttpStatusCode
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
+import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
@@ -13,6 +15,12 @@ fun Application.configureRouting() {
             }
             get("/json") {
                 call.respond(mapOf("hello" to "world"))
+            }
+            post("/firebase/users") {
+                val body = call.receiveText()
+                log.info("X-Api-Key: ${call.request.header("X-Api-Key")}")
+                log.info("User created: $body")
+                call.respond(HttpStatusCode.Created)
             }
 
             authenticate("firebase") {

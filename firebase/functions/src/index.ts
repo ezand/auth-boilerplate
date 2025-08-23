@@ -10,8 +10,8 @@
 import { setGlobalOptions } from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as functionsV1 from "firebase-functions/v1";
-// import {onRequest} from "firebase-functions/https";
-import * as logger from "firebase-functions/logger";
+// import * as logger from "firebase-functions/logger";
+import { defineString } from "firebase-functions/params";
 
 // Start writing functions
 // https://firebase.google.com/docs/functions/typescript
@@ -28,18 +28,47 @@ import * as logger from "firebase-functions/logger";
 // this will be the maximum concurrent request count.
 setGlobalOptions({ maxInstances: 10 });
 
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
-
 admin.initializeApp();
+
+// Parameterized config (backend base URL)
+const BACKEND_URL = defineString("BACKEND_URL");
 
 // 1st-gen Auth trigger (still only available in v1 today)
 export const onAuthUserCreated = functionsV1
   .region("us-central1")
+  .runWith({
+    secrets: ["BACKEND_API_KEY"],
+    timeoutSeconds: 30,
+    memory: "256MB",
+  })
   .auth.user()
   .onCreate(async (user) => {
-    logger.info("New Firebase user:", user.uid, user.email);
-    // call your backend API here...
+    const payload = {
+      uid: user.uid,
+      email: user.email ?? null,
+      emailVerified: user.emailVerified ?? false,
+      displayName: user.displayName ?? null,
+      photoURL: user.photoURL ?? null,
+      phoneNumber: user.phoneNumber ?? null,
+      providerIds: (user.providerData || []).map((p) => p.providerId),
+      createdAt: new Date().toISOString(),
+    };
+
+    const url = `${BACKEND_URL.value()}/api/firebase/users`;
+    const headers = {
+      "Content-Type": "application/json",
+      "X-Idempotency-Key": user.uid,
+      "X-Api-Key": process.env.BACKEND_API_KEY || "",
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Backend ${res.status}: ${text}`);
+    }
   });
