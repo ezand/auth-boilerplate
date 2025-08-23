@@ -66,13 +66,13 @@ export const signIn = async (signIn: SignIn) => {
           await signInWithPopup(firebaseAuth, new GoogleAuthProvider());
           break;
       }
+      await navigateTo(redirectPath.value || "/");
     } catch (err: unknown) {
       console.error("Login error:", err);
       const firebaseError = err as { code: string };
       error.value = getErrorMessage(firebaseError.code);
     } finally {
       loading.value = false;
-      await navigateTo(redirectPath.value || "/");
     }
   }
 };
