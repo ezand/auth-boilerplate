@@ -3,6 +3,22 @@
     "index": {
       "welcome": "Welcome to the index page"
     },
+    "login": {
+      "title": "Login",
+      "subHeader": "Enter your credentials to access your account",
+      "signInButton": {
+        "label": "Sign in"
+      },
+      "emailInput": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "passwordInput": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "orContinueWith": "Or"
+    },
     "profile": {
       "user-profile": {
         "title": "User Profile"

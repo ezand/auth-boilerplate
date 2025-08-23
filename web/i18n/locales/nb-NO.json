@@ -3,6 +3,22 @@
     "index": {
       "welcome": "Velkommen til hovedsiden"
     },
+    "login": {
+      "title": "Logg inn",
+      "subHeader": "Skriv inn dine opplysninger for å få tilgang til kontoen din",
+      "signInButton": {
+        "label": "Logg inn"
+      },
+      "emailInput": {
+        "label": "E-post",
+        "placeholder": "Skriv inn e-posten din"
+      },
+      "passwordInput": {
+        "label": "Passord",
+        "placeholder": "Skriv inn passordet ditt"
+      },
+      "orContinueWith": "Eller"
+    },
     "profile": {
       "user-profile": {
         "title": "Brukerprofil"

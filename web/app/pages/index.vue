@@ -7,14 +7,15 @@ const { locale, setLocale } = useI18n()
         <h1>Index page</h1>
         <div>{{ $t('pages.index.welcome') }}</div>
         <div>Locale: {{ locale }}</div>
-        <div>
+        <div class="flex space-x-2 mt-2">
             <UButton @click="setLocale('en')">English</UButton>
             <UButton @click="setLocale('nb-NO')">Norsk</UButton>
         </div>
-        <div>
+        <div class="mt-2">
             <UButton to="/profile/user-profile">Profile</UButton>
         </div>
-        <div>
+        <div class="flex space-x-2 mt-2">
+            <UButton to="/login">Login</UButton>
             <UButton to="/logout">Logout</UButton>
         </div>
     </UCard>
