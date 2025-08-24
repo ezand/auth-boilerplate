@@ -45,3 +45,30 @@ If the server starts successfully, you'll see the following output:
 2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
 ```
 
+## Environment variables
+
+```bash
+FIREBASE_ADMIN_FILE=src/main/resources/firebase-admin.json
+FIREBASE_AUTH_EVENT_TOKEN=...
+```
+
+## Firebase
+
+`src/main/resources/firebase-admin.json`
+
+```json
+{
+  "type": "service_account",
+  "project_id": "...",
+  "private_key_id": "...",
+  "private_key": "...",
+  "client_email": "...",
+  "client_id": "...",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "...",
+  "universe_domain": "googleapis.com"
+}
+
+```
