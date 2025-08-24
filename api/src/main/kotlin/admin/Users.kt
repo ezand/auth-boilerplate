@@ -5,6 +5,9 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.FirebaseOptions
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.serialization.Serializable
+import org.quartz.Job
+import org.quartz.JobExecutionContext
+import org.slf4j.LoggerFactory
 import java.io.FileInputStream
 
 @Serializable
@@ -45,4 +48,22 @@ fun syncUsers() {
             // TODO
             println("User: ${user.uid}")
         }
+}
+
+class UserSyncJob : Job {
+    private val logger = LoggerFactory.getLogger(UserSyncJob::class.java)
+
+    override fun execute(context: JobExecutionContext) {
+        logger.info("Starting scheduled user sync from Firebase")
+        val startTime = System.currentTimeMillis()
+
+        try {
+            syncUsers()
+            val duration = System.currentTimeMillis() - startTime
+            logger.info("User sync completed successfully in ${duration}ms")
+        } catch (e: Exception) {
+            val duration = System.currentTimeMillis() - startTime
+            logger.error("User sync failed after ${duration}ms", e)
+        }
+    }
 }

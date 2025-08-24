@@ -28,6 +28,7 @@ dependencies {
     implementation("io.ktor:ktor-server-core")
     implementation("io.ktor:ktor-server-cors")
     implementation("io.ktor:ktor-server-netty")
+    implementation("org.quartz-scheduler:quartz:2.5.0")
 
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
