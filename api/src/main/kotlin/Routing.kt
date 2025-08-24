@@ -1,5 +1,6 @@
 package club.huddleup
 
+import club.huddleup.admin.FirebaseUserCreatedEvent
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -29,8 +30,8 @@ fun Application.configureRouting() {
         route("/internal/api") {
             authenticate("bearerFirebase") {
                 post("/firebase/users") {
-                    val body = call.receiveText()
-                    log.info("User created: $body")
+                    val event = call.receive<FirebaseUserCreatedEvent>()
+                    log.info("User created: $event")
                     call.respond(HttpStatusCode.Created)
                 }
             }
