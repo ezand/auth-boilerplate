@@ -17,6 +17,7 @@ application {
 
 dependencies {
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("com.google.firebase:firebase-admin:9.5.0")
     implementation("com.kborowy:firebase-auth-provider:${firebaseVersion}")
     implementation("io.ktor:ktor-serialization-kotlinx-json")
     implementation("io.ktor:ktor-server-auth")

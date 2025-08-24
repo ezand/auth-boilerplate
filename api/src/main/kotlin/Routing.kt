@@ -33,11 +33,13 @@ fun Application.configureRouting() {
                     post("") {
                         val event = call.receive<FirebaseUserCreatedEvent>()
                         log.info("User created: $event")
+                        // TODO
                         call.respond(HttpStatusCode.Created)
                     }
                     delete("/{uid}") {
                         val userId = call.parameters["uid"]
                         log.info("User $userId deleted")
+                        // TODO
                         call.respond(HttpStatusCode.NoContent)
                     }
                 }
