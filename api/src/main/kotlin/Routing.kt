@@ -29,10 +29,17 @@ fun Application.configureRouting() {
 
         route("/internal/api") {
             authenticate("bearerFirebase") {
-                post("/firebase/users") {
-                    val event = call.receive<FirebaseUserCreatedEvent>()
-                    log.info("User created: $event")
-                    call.respond(HttpStatusCode.Created)
+                route("/firebase/users") {
+                    post("") {
+                        val event = call.receive<FirebaseUserCreatedEvent>()
+                        log.info("User created: $event")
+                        call.respond(HttpStatusCode.Created)
+                    }
+                    delete("/{uid}") {
+                        val userId = call.parameters["uid"]
+                        log.info("User $userId deleted")
+                        call.respond(HttpStatusCode.NoContent)
+                    }
                 }
             }
         }

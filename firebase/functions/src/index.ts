@@ -33,7 +33,6 @@ admin.initializeApp();
 // Parameterized config (backend base URL)
 const BACKEND_URL = defineString("BACKEND_URL");
 
-// 1st-gen Auth trigger (still only available in v1 today)
 export const onAuthUserCreated = functionsV1
   .region("us-central1")
   .runWith({
@@ -65,6 +64,33 @@ export const onAuthUserCreated = functionsV1
       method: "POST",
       headers: headers,
       body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`Backend ${res.status}: ${text}`);
+    }
+  });
+
+export const onAuthUserDeleted = functionsV1
+  .region("us-central1")
+  .runWith({
+    secrets: ["BACKEND_API_KEY"],
+    timeoutSeconds: 30,
+    memory: "256MB",
+  })
+  .auth.user()
+  .onDelete(async (user) => {
+    const url = `${BACKEND_URL.value()}/internal/api/firebase/users/${
+      user.uid
+    }`;
+    const headers = {
+      Authorization: `Bearer ${process.env.BACKEND_API_KEY}`,
+    };
+
+    const res = await fetch(url, {
+      method: "DELETE",
+      headers: headers,
     });
 
     if (!res.ok) {
