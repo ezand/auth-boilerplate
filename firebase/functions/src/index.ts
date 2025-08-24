@@ -54,11 +54,11 @@ export const onAuthUserCreated = functionsV1
       createdAt: new Date().toISOString(),
     };
 
-    const url = `${BACKEND_URL.value()}/api/firebase/users`;
+    const url = `${BACKEND_URL.value()}/internal/api/firebase/users`;
     const headers = {
       "Content-Type": "application/json",
       "X-Idempotency-Key": user.uid,
-      "X-Api-Key": process.env.BACKEND_API_KEY || "",
+      Authorization: `Bearer ${process.env.BACKEND_API_KEY}`,
     };
 
     const res = await fetch(url, {

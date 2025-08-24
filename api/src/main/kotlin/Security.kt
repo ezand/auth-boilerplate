@@ -7,6 +7,10 @@ import java.io.File
 
 fun Application.configureSecurity() {
     val firebaseAdminFile = File(System.getenv("FIREBASE_ADMIN_FILE"))
+    val bearerAuthClients = mapOf(
+        // Used for authentication event callbacks from Firebase (created, deleted etc.)
+        System.getenv("FIREBASE_AUTH_EVENT_TOKEN") to "system/firebase"
+    )
 
     install(Authentication) {
         firebase("firebase") {
@@ -16,6 +20,14 @@ fun Application.configureSecurity() {
 
             validate { token ->
                 UserIdPrincipal(token.uid)
+            }
+        }
+
+        bearer("bearerFirebase") {
+            authenticate { tokenCredential ->
+                bearerAuthClients[tokenCredential.token]?.let { clientId ->
+                    UserIdPrincipal(clientId)
+                }
             }
         }
     }

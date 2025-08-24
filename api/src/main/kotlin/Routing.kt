@@ -1,6 +1,6 @@
 package club.huddleup
 
-import io.ktor.http.HttpStatusCode
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.request.*
@@ -16,18 +16,22 @@ fun Application.configureRouting() {
             get("/json") {
                 call.respond(mapOf("hello" to "world"))
             }
-            post("/firebase/users") {
-                val body = call.receiveText()
-                log.info("X-Api-Key: ${call.request.header("X-Api-Key")}")
-                log.info("User created: $body")
-                call.respond(HttpStatusCode.Created)
-            }
 
             authenticate("firebase") {
                 get("/me") {
                     val principal = call.principal<UserIdPrincipal>()
                     log.info("Principal: $principal")
                     call.respond(mapOf("hello" to "world"))
+                }
+            }
+        }
+
+        route("/internal/api") {
+            authenticate("bearerFirebase") {
+                post("/firebase/users") {
+                    val body = call.receiveText()
+                    log.info("User created: $body")
+                    call.respond(HttpStatusCode.Created)
                 }
             }
         }
